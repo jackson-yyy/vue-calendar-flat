@@ -1,29 +1,29 @@
 <template>
   <div id="app">
-    <vCalendar :dateNote="dateNote"
+    <Calendar :dateNote="dateNote"
       end="2020-2"
       :limit="3"
       @exceed="exceed"
       :todayHighLight='true'
       :readOnly="false"
-      v-model="chose"></vCalendar>
-     <vCalendarDayConcise :day="{
+      v-model="chose"></Calendar>
+     <CalendarDayConcise :day="{
         year: 2019,
         month: 4,
         day: 3,
         disable:true
-      }"></vCalendarDayConcise>
+      }"></CalendarDayConcise>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-// import { vCalendar } from 'vue-calendar-flat/components'
-import { vCalendar, vCalendarDayConcise } from '../components'
+// import { Calendar } from 'vue-calendar-flat/components'
+import { Calendar, CalendarDayConcise } from '../components'
 @Component({
   components: {
-    vCalendar,
-    vCalendarDayConcise
+    Calendar,
+    CalendarDayConcise
   }
 })
 export default class App extends Vue {
