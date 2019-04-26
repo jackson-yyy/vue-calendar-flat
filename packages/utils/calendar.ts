@@ -1,5 +1,5 @@
 
-import { Calendar2d, CalendarFlat, CalendarDay } from '@/types/calendar'
+import { Calendar2d, CalendarFlat, CalendarDay } from '../types/calendar'
 // 类型接口
 interface Months {
   readonly [key: number]: number;

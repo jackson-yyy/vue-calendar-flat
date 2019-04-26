@@ -2,23 +2,23 @@
   <div class="calendar"
     :style="fontStyle">
     <div class="top">
-      <img :src="require('@/icons/double-arrow-left.png')"
+      <img :src="require('../../../icons/double-arrow-left.png')"
         alt=""
         class="top__icon--left"
         v-if="canYearOperationShow"
         @click.stop="decreaseYear">
-      <img :src="require('@/icons/arrow-left.png')"
+      <img :src="require('../../../icons/arrow-left.png')"
         alt=""
         class="top__icon--left"
         v-if="canMonthOperationShow"
         @click.stop="decreaseMonth">
       <span class="top__text">{{year}} 年 {{month}} 月</span>
-      <img :src="require('@/icons/arrow-right.png')"
+      <img :src="require('../../../icons/arrow-right.png')"
         alt=""
         class="top__icon--right"
         v-if="canMonthOperationShow"
         @click.stop="increaseMonth">
-      <img :src="require('@/icons/double-arrow-right.png')"
+      <img :src="require('../../../icons/double-arrow-right.png')"
         alt=""
         class="top__icon--right"
         v-if="canYearOperationShow"
@@ -63,9 +63,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
-import { getCalendar } from '@/utils/calendar'
-import { Calendar2d, CalendarDay, CalendarChose, CalendarBuffer, CalendarFlat } from '@/types/calendar'
-import CalendarDayConcise from '@/components/calendar-day-concise/src/calendar-day-concise.vue'
+import { getCalendar } from '../../../utils/calendar'
+import { Calendar2d, CalendarDay, CalendarChose, CalendarBuffer, CalendarFlat } from '../../../types/calendar'
+import CalendarDayConcise from '../../calendar-day-concise/src/calendar-day-concise.vue'
 const weekdays: string[] = ['日', '一', '二', '三', '四', '五', '六']
 const dateCurrent: Date = new Date()
 const yearCurrent: number = dateCurrent.getFullYear()
