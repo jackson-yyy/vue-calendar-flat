@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-// import { Calendar } from 'vue-calendar-flat/components'
-import { Calendar, CalendarDayConcise } from '../components'
+import { Calendar, CalendarDayConcise } from 'vue-calendar-flat/packages'
+// import { Calendar, CalendarDayConcise } from '../packages'
 @Component({
   components: {
     Calendar,

@@ -17,8 +17,7 @@ module.exports = {
         }
     },
     devServer: {
-        disableHostCheck: true,
-        port: 8081
+        disableHostCheck: true
     },
     chainWebpack: (config) => {
         config.resolve.alias

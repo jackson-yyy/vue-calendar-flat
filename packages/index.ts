@@ -18,6 +18,11 @@ if (typeof window !== 'undefined' && (window as any).Vue) {
   install((window as any).Vue)
 }
 
+export {
+  Calendar,
+  CalendarDayConcise
+}
+
 export default {
   install
 }

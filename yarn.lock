@@ -7560,9 +7560,9 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-calendar-flat@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/vue-calendar-flat/-/vue-calendar-flat-0.1.0.tgz#31fbb468834119639782a2cc2f9d44c053f028e0"
+vue-calendar-flat@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/vue-calendar-flat/-/vue-calendar-flat-0.1.1.tgz#210fbcfadb498f080daad93fa6bed1128f34f417"
   dependencies:
     core-js "^2.6.5"
     vue "^2.6.10"
