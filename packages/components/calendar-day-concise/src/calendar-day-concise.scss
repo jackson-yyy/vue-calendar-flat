@@ -1,0 +1,76 @@
+* {
+    box-sizing: border-box;
+}
+
+@mixin activeChose($width) {
+    width: $width;
+    height: $width;
+    line-height: $width;
+}
+
+.day {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 62px;
+    font-weight: 500;
+    padding: 8px 0;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    &__day {
+        position: relative;
+        margin: 0 auto;
+        border-radius: 50%;
+        // transition: all .1s;
+        color: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        @include activeChose(38px);
+        opacity: inherit;
+        &>.dot {
+            position: absolute;
+            bottom: 6px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-2px);
+        }
+    }
+    @media screen and (max-width: 350px) {
+        height: 56px;
+        &__day {
+            @include activeChose(34px);
+            &>.dot {
+                bottom: 2px;
+            }
+        }
+    }
+    &__text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 10px;
+        text-align: center;
+        opacity: inherit;
+    }
+    &.disabled {
+        color: #909399;
+        opacity: .75;
+    }
+    &.delete-line {
+        text-decoration: line-through;
+    }
+    &.active {
+        &>.day__day {
+            color: #fff !important;
+            // background-color: $main-color;
+            &>.dot {
+                background-color: #fff;
+            }
+        }
+        &>.day__text {
+            // visibility: hidden;
+        }
+    }
+}
