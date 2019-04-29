@@ -1,13 +1,13 @@
 {
     "name": "vue-calendar-flat",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "private": false,
     "keywords": [
         "vue",
         "calendar",
         "calendar-flat"
     ],
-    "main": "lib/vue-calendar-flat.min.js",
+    "main": "lib/vue-calendar-flat.umd.min.js",
     "license": "MIT",
     "author": "polkYu",
     "scripts": {
@@ -42,7 +42,7 @@
         "sass-loader": "^7.1.0",
         "ts-node": "^8.1.0",
         "typescript": "^3.4.3",
-        "vue-calendar-flat": "^0.1.4",
+        "vue-calendar-flat": "^0.1.5",
         "vue-template-compiler": "^2.5.21"
     }
 }

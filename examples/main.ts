@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-// import Calendar from 'vue-calendar-flat/packages'
+import Calendar from 'vue-calendar-flat'
 // Vue.use(Calendar)
 
 Vue.config.productionTip = false
