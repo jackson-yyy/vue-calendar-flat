@@ -7,12 +7,14 @@
       :todayHighLight='true'
       :readOnly="false"
       v-model="chose"></Calendar>
-     <CalendarDayConcise :day="{
+     <!-- <CalendarDayConcise :day="{
         year: 2019,
         month: 4,
         day: 3,
         disable:true
-      }"></CalendarDayConcise>
+      }"></CalendarDayConcise> -->
+      <div>已选：</div>
+      <div v-for="(item,index) in chose" :key="index">{{item.year}}-{{item.month}}-{{item.day}}</div>
   </div>
 </template>
 
@@ -34,8 +36,8 @@ export default class App extends Vue {
   }]
 
   dateNote:{}={
-    20190401: '情人节',
-    20190419: '情人节'
+    20190401: '自定义',
+    20190419: '自定义'
   }
 
   click (e: any) {
@@ -45,6 +47,7 @@ export default class App extends Vue {
   exceed () {
     console.log('====================================')
     console.log('exceed')
+    alert('超过数量')
     console.log('====================================')
   }
 
