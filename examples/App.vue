@@ -29,7 +29,11 @@ import { Calendar, CalendarDayConcise } from '../packages'
   }
 })
 export default class App extends Vue {
-  chose: {}[] = [{
+  chose: {
+    year:number;
+    month:number;
+    day:number;
+  }[] = [{
     year: 2019,
     month: 4,
     day: 3
