@@ -1,8 +1,46 @@
 
-import { Calendar2d, CalendarFlat, CalendarDay } from '../types/calendar'
+import { Calendar2d, CalendarFlat, CalendarDay, NaturalDay } from '../types/calendar'
 // 类型接口
 interface Months {
   readonly [key: number]: number;
+}
+
+/**
+ *判断两个日期大小
+ *
+ * @export
+ * @param {NaturalDay} {
+ *   year: y1,
+ *   month: m1,
+ *   day: d1
+ * }
+ * @param {NaturalDay} {
+ *   year: y2,
+ *   month: m2,
+ *   day: d2
+ * }
+ * @returns {number}
+ */
+export function compareDate ({
+  year: y1,
+  month: m1,
+  day: d1
+}: NaturalDay, {
+  year: y2,
+  month: m2,
+  day: d2
+}: NaturalDay): number {
+  const date1 = (new Date(Date.parse(`${y1}/${m1}/${d1}`))).getTime()
+  const date2 = (new Date(Date.parse(`${y2}/${m2}/${d2}`))).getTime()
+  switch (true) {
+    case date1 - date2 > 0:
+      return 1
+    case date1 - date2 === 0:
+      return 0
+    case date1 - date2 < 0:
+      return -1
+    default: return 1
+  }
 }
 
 /**

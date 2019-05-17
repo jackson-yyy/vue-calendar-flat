@@ -2,7 +2,6 @@
   <div id="app">
     <Calendar :dateNote="dateNote"
       noteColor="blue"
-      start="2019-6-1"
       end="2020-6-20"
       :limit="3"
       @exceed="exceed"

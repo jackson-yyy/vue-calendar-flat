@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
-import { getCalendar, getMonthsDays } from '../../../utils/calendar'
+import { getCalendar, getMonthsDays, compareDate } from '../../../utils/calendar'
 import { Calendar2d, CalendarDay, NaturalDay, CalendarBuffer, CalendarFlat } from '../../../types/calendar'
 import CalendarDayConcise from '../../calendar-day-concise/src/calendar-day-concise.vue'
 const weekdays: string[] = ['日', '一', '二', '三', '四', '五', '六']
@@ -127,13 +127,7 @@ export default class Calendar extends Vue {
 
   @Prop({
     required: false,
-    default: () => {
-      return {
-        year: yearCurrent,
-        month: monthCurrent,
-        day: dayCurrent
-      }
-    },
+    default: `${yearCurrent}-${monthCurrent}-${dayCurrent}`,
     validator: value => {
       let [year, month, day] = value.split('-')
 
@@ -288,7 +282,7 @@ export default class Calendar extends Vue {
     this.getCalendar()
   }
 
-  private initChose ():void{
+  private initChose (): void {
     this.chose = this.value.filter(item => this.isInRange(item))
     this.emitChose(this.chose)
   }
@@ -310,10 +304,15 @@ export default class Calendar extends Vue {
       endDay = dayCurrent
     }
 
-    let startDateObj = new Date(`${startYear}-${startMonth}-${startDay}`)
-    let endDateObj = new Date(`${endYear}-${endMonth}-${endDay}`)
-
-    if (startDateObj.getTime() - endDateObj.getTime() > 0) {
+    if (compareDate({
+      year: startYear,
+      month: startMonth,
+      day: startDay
+    }, {
+      year: endYear,
+      month: endMonth,
+      day: endDay
+    }) >= 0) {
       console.error('Calendar:start should be less than end.')
       endYear = startYear
       endMonth = startMonth
@@ -447,13 +446,8 @@ export default class Calendar extends Vue {
   }
 
   // 判断某一天是否在规定范围内
-  private isInRange ({
-    year, month, day
-  }: NaturalDay): boolean {
-    let startDate = new Date(`${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`)
-    let endDate = new Date(`${this.endDate.year}-${this.endDate.month}-${this.endDate.day}`)
-    let date = new Date(`${year}-${month}-${day}`)
-    return !!(date.getTime() - startDate.getTime() >= 0) && !!(endDate.getTime() - date.getTime() >= 0)
+  private isInRange (date: NaturalDay): boolean {
+    return compareDate(date, this.startDate) >= 0 && compareDate(this.endDate, date) >= 0
   }
 }
 </script>
