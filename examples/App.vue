@@ -1,20 +1,23 @@
 <template>
   <div id="app">
     <Calendar :dateNote="dateNote"
-      end="2020-2"
+      noteColor="blue"
+      start="2019-6-1"
+      end="2020-6-20"
       :limit="3"
       @exceed="exceed"
       :todayHighLight='true'
       :readOnly="false"
       v-model="chose"></Calendar>
-     <!-- <CalendarDayConcise :day="{
+    <!-- <CalendarDayConcise :day="{
         year: 2019,
         month: 4,
         day: 3,
         disable:true
       }"></CalendarDayConcise> -->
-      <div>已选：</div>
-      <div v-for="(item,index) in chose" :key="index">{{item.year}}-{{item.month}}-{{item.day}}</div>
+    <div>已选：</div>
+    <div v-for="(item,index) in chose"
+      :key="index">{{item.year}}-{{item.month}}-{{item.day}}</div>
   </div>
 </template>
 
@@ -30,18 +33,18 @@ import { Calendar, CalendarDayConcise } from '../packages'
 })
 export default class App extends Vue {
   chose: {
-    year:number;
-    month:number;
-    day:number;
+    year: number;
+    month: number;
+    day: number;
   }[] = [{
     year: 2019,
     month: 4,
     day: 3
   }]
 
-  dateNote:{}={
-    20190401: '自定义',
-    20190419: '自定义'
+  dateNote: {} = {
+    20190501: '自定义',
+    20190619: '自定义'
   }
 
   click (e: any) {

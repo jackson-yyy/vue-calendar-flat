@@ -96,15 +96,17 @@ disabledLine | boolean | --- | false | false | show disabled line
 readOnly | string | --- | false | false | readonly
 limit | number | --- | 1 | false | quantity limit
 dateNote | {<br> [key: number]: string <br>} | --- | --- | false | note of day
+noteColor | string | --- | #606266 | false | color of date note
 value |{<br>year: number;<br>month: number;<br>day: number;<br>}[] |--- | --- | true | days chose
-start | string | --- | `${yearCurrent}-${monthCurrent}` | false | start of range
-end | string | --- | 9999-12 | false | end of range
+start | string | --- | `${yearCurrent}-${monthCurrent}-${dayCurrent}` | false | start of range
+end | string | --- | 9999-12-31 | false | end of range
 
 #### CalendarDayConcise
 attr | type | options | default | required | note
 --- | --- | --- | --- | --- | --- 
 themeColor | string | --- | #57D089 | false | theme color
 fontColor | string | --- | #606266 | false | font color
+noteColor | string | --- | #606266 | false | color of date note
 disabledLine | boolean | --- | false | false | show disabled line
 active | boolean | --- | false | false | is activated
 todayHighLight | boolean | --- | true | false | highlight today

@@ -6,9 +6,11 @@
     <div class="day__day"
       :style="activeStyle">
       <span>{{day.day}}</span>
-      <span class="dot" v-if="showToday" :style="activeDotStyle"></span>
-      </div>
-    <div class="day__text">{{day.note}}</div>
+      <span class="dot"
+        v-if="showToday"
+        :style="activeDotStyle"></span>
+    </div>
+    <div class="day__text" :style="`color:${noteColor};`">{{day.note}}</div>
   </div>
 </template>
 
@@ -31,6 +33,11 @@ export default class CalendarDayConcise extends Vue {
     required: false,
     default: '#606266'
   }) fontColor!: string
+
+  @Prop({
+    required: false,
+    default: '#606266'
+  }) noteColor!: string
 
   @Prop({
     type: Boolean,
@@ -59,7 +66,7 @@ export default class CalendarDayConcise extends Vue {
   @Emit()
   private click (): void { }
 
-  private get showToday ():boolean {
+  private get showToday (): boolean {
     return this.todayHighLight && !!this.day.isToday
   }
 
@@ -84,7 +91,7 @@ export default class CalendarDayConcise extends Vue {
     }
   }
 
-  private get activeDotStyle ():object {
+  private get activeDotStyle (): object {
     return {
       backgroundColor: this.active ? '#ffffff' : this.themeColor
     }

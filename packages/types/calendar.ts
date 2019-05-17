@@ -1,13 +1,22 @@
 /**
+ *自然日
+ *
+ * @export
+ * @interface NaturalDay
+ */
+export interface NaturalDay {
+  year: number;
+  month: number;
+  day: number;
+}
+
+/**
  *日历的每一天
  *
  * @export
  * @interface CalendarDay
  */
-export interface CalendarDay {
-  year:number;
-  month:number;
-  day: number;
+export interface CalendarDay extends NaturalDay {
   disable: boolean;
   note?: string;
   isToday?: boolean;
@@ -33,18 +42,6 @@ export interface CalendarFlat extends Array<CalendarDay> {
  */
 export interface Calendar2d extends Array<CalendarFlat> {
   [index: number]: CalendarFlat
-}
-
-/**
- *已选的日期
- *
- * @export
- * @interface CalendarChose
- */
-export interface CalendarChose {
-  year: number
-  month: number
-  day: number
 }
 
 /**

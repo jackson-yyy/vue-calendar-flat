@@ -63,8 +63,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
-import { getCalendar } from '../../../utils/calendar'
-import { Calendar2d, CalendarDay, CalendarChose, CalendarBuffer, CalendarFlat } from '../../../types/calendar'
+import { getCalendar, getMonthsDays } from '../../../utils/calendar'
+import { Calendar2d, CalendarDay, NaturalDay, CalendarBuffer, CalendarFlat } from '../../../types/calendar'
 import CalendarDayConcise from '../../calendar-day-concise/src/calendar-day-concise.vue'
 const weekdays: string[] = ['日', '一', '二', '三', '四', '五', '六']
 const dateCurrent: Date = new Date()
@@ -80,37 +80,36 @@ const dayCurrent: number = dateCurrent.getDate()
 })
 export default class Calendar extends Vue {
   @Prop({
-    type: String,
     required: false,
     default: '#57D089'
   }) themeColor!: string
 
   @Prop({
-    type: String,
     required: false,
     default: '#606266'
   }) fontColor!: string
 
   @Prop({
-    type: Boolean,
+    required: false,
+    default: '#606266'
+  }) noteColor!: string
+
+  @Prop({
     required: false,
     default: false
   }) disabledLine!: boolean
 
   @Prop({
-    type: Boolean,
     required: false,
     default: false
   }) readOnly!: boolean
 
   @Prop({
-    type: Number,
     required: false,
     default: 1
   }) limit!: number
 
   @Prop({
-    type: Object,
     required: false,
     default: () => {
       return {}
@@ -120,22 +119,31 @@ export default class Calendar extends Vue {
   }
 
   @Prop({
-    type: Array,
     required: false,
     default: () => {
       return []
     }
-  }) value!: CalendarChose[]
+  }) value!: NaturalDay[]
 
   @Prop({
-    type: String,
     required: false,
-    default: `${yearCurrent}-${monthCurrent}`,
+    default: () => {
+      return {
+        year: yearCurrent,
+        month: monthCurrent,
+        day: dayCurrent
+      }
+    },
     validator: value => {
-      let [year, month] = value.split('-')
+      let [year, month, day] = value.split('-')
 
-      if (!Number(year) || !Number(month)) {
-        console.warn('Calendar:prop start should be formatted like YYYY-MM.')
+      if (day === 0 || day > getMonthsDays(year)[month]) {
+        console.warn('Calendar:day of prop start is invalid.')
+        return false
+      }
+
+      if (!Number(year) || !Number(month) || !Number(day)) {
+        console.warn('Calendar:prop start should be formatted like YYYY-MM-DD.')
         return false
       }
       if (month - 0 < 1 || month - 0 > 12) {
@@ -147,13 +155,17 @@ export default class Calendar extends Vue {
   }) start!: string
 
   @Prop({
-    type: String,
     required: false,
-    default: '9999-12',
+    default: '9999-12-31',
     validator: function (value) {
-      let [year, month] = value.split('-')
+      let [year, month, day] = value.split('-')
 
-      if (!Number(year) || !Number(month)) {
+      if (day === 0 || day > getMonthsDays(year)[month]) {
+        console.warn('Calendar:day of prop start is invalid.')
+        return false
+      }
+
+      if (!Number(year) || !Number(month) || !Number(day)) {
         console.warn('Calendar:prop start should be formatted like YYYY-MM.')
         return false
       }
@@ -170,36 +182,33 @@ export default class Calendar extends Vue {
   private month: number = monthCurrent
   private day: number = dayCurrent
   private calendar: Calendar2d = []
-  private chose: CalendarChose[] = []
+  private chose: NaturalDay[] = []
   private choseBuffer: CalendarBuffer = {}
 
   // 可选日期范围
-  private startDate: {
-    year: number,
-    month: number
-  } = {
+  private startDate: NaturalDay = {
     year: yearCurrent,
-    month: monthCurrent
+    month: monthCurrent,
+    day: dayCurrent
   }
-  private endDate: {
-    year: number,
-    month: number
-  } = {
+  private endDate: NaturalDay = {
     year: yearCurrent,
-    month: monthCurrent
+    month: monthCurrent,
+    day: dayCurrent
   }
 
   @Emit()
   private exceed () { }
 
-  @Emit()
-  private input (date: CalendarChose[]) { }
+  @Emit('input')
+  private emitChose (date: NaturalDay[]) { }
 
   private get propPass (): object {
     return {
       ...this.$attrs,
       themeColor: this.themeColor,
       fontColor: this.fontColor,
+      noteColor: this.noteColor,
       disabledLine: this.disabledLine
     }
   }
@@ -226,10 +235,16 @@ export default class Calendar extends Vue {
   }
 
   private get calendarHandled (): Calendar2d {
+    const self = this
     return this.calendar.map((week: CalendarFlat) => week.map((day: CalendarDay) => {
       let currentDay: number = Number(`${day.year}${String(day.month).padStart(2, '0')}${String(day.day).padStart(2, '0')}`)
       return {
         ...day,
+        disable: day.disable && self.isInRange({
+          year: day.year,
+          month: day.month,
+          day: day.day
+        }),
         note: this.dateNote[currentDay] || ''
       }
     }
@@ -266,29 +281,40 @@ export default class Calendar extends Vue {
 
   private init (): void {
     this.initDateRange()
-    this.year = this.startDate.year
-    this.month = this.startDate.month
-    this.chose = this.value
+    // this.year = this.startDate.year
+    // this.month = this.startDate.month
+    // this.day = this.startDate.day
+    this.initChose()
     this.getCalendar()
   }
 
+  private initChose ():void{
+    this.chose = this.value.filter(item => this.isInRange(item))
+    this.emitChose(this.chose)
+  }
+
   private initDateRange (): void {
-    let [startYear, startMonth] = this.start.split('-').map(item => Number(item))
-    let [endYear, endMonth] = this.end.split('-').map(item => Number(item))
-    if (!startYear || !startMonth) {
-      console.warn('Calendar:prop start should be formatted like YYYY-MM.')
+    let [startYear, startMonth, startDay] = this.start.split('-').map(item => Number(item))
+    let [endYear, endMonth, endDay] = this.end.split('-').map(item => Number(item))
+    if (!startYear || !startMonth || !startDay) {
+      console.warn('Calendar:prop start should be formatted like YYYY-MM-DD.')
       startYear = yearCurrent
       startMonth = monthCurrent
+      startDay = dayCurrent
     }
 
-    if (!endYear || !endMonth) {
-      console.warn('Calendar:prop end should be formatted like YYYY-MM.')
+    if (!endYear || !endMonth || !endDay) {
+      console.warn('Calendar:prop end should be formatted like YYYY-MM-DD.')
       endYear = yearCurrent
       endMonth = monthCurrent
+      endDay = dayCurrent
     }
 
-    if (startYear > endYear || (startYear === endYear && startMonth > endMonth)) {
-      console.warn('Calendar:start should be less than end.')
+    let startDateObj = new Date(`${startYear}-${startMonth}-${startDay}`)
+    let endDateObj = new Date(`${endYear}-${endMonth}-${endDay}`)
+
+    if (startDateObj.getTime() - endDateObj.getTime() > 0) {
+      console.error('Calendar:start should be less than end.')
       endYear = startYear
       endMonth = startMonth
     }
@@ -300,21 +326,23 @@ export default class Calendar extends Vue {
 
     this.startDate = {
       year: startYear,
-      month: startMonth
+      month: startMonth,
+      day: startDay
     }
 
     this.endDate = {
       year: endYear,
-      month: endMonth
+      month: endMonth,
+      day: endDay
     }
   }
 
-  private isExist (date: CalendarChose): number {
+  private isExist (date: NaturalDay): number {
     return this.chose.findIndex(({
       year,
       month,
       day
-    }: CalendarChose) => year === date.year && month === date.month && day === date.day)
+    }: NaturalDay) => year === date.year && month === date.month && day === date.day)
   }
 
   private choose ({ year, month, day, disable }: CalendarDay): void {
@@ -339,7 +367,7 @@ export default class Calendar extends Vue {
       this.chose.splice(index, 1)
     }
 
-    this.input(this.chose)
+    this.emitChose(this.chose)
   }
 
   private getCalendar (): Calendar2d {
@@ -416,6 +444,16 @@ export default class Calendar extends Vue {
         this.month = this.startDate.month
       }
     }
+  }
+
+  // 判断某一天是否在规定范围内
+  private isInRange ({
+    year, month, day
+  }: NaturalDay): boolean {
+    let startDate = new Date(`${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`)
+    let endDate = new Date(`${this.endDate.year}-${this.endDate.month}-${this.endDate.day}`)
+    let date = new Date(`${year}-${month}-${day}`)
+    return !!(date.getTime() - startDate.getTime() >= 0) && !!(endDate.getTime() - date.getTime() >= 0)
   }
 }
 </script>
