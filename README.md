@@ -1,6 +1,9 @@
 # vue-calendar-flat
 A flat style calendar component for vue,base on typescript.
 
+### ToDo
+外部控制可选日期数组
+
 ![demo](https://github.com/polkYu/vue-calendar-flat/blob/master/examples/assets/demo.gif?raw=true)
 
 ### Getting Started
