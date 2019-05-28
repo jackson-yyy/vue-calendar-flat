@@ -7,6 +7,7 @@
       @exceed="exceed"
       :todayHighLight='true'
       :readOnly="false"
+      :disableDate="disableDate"
       v-model="chose"></Calendar>
     <!-- <CalendarDayConcise :day="{
         year: 2019,
@@ -37,14 +38,20 @@ export default class App extends Vue {
     day: number;
   }[] = [{
     year: 2019,
-    month: 4,
-    day: 3
+    month: 5,
+    day: 30
   }]
 
   dateNote: {} = {
     20190501: '自定义',
     20190619: '自定义'
   }
+
+  disableDate:number[] = [
+    20190529,
+    20190530,
+    20190531
+  ]
 
   click (e: any) {
     console.log(e)

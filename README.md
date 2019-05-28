@@ -1,9 +1,6 @@
 # vue-calendar-flat
 A flat style calendar component for vue,base on typescript.
 
-### ToDo
-外部控制可选日期数组
-
 ![demo](https://github.com/polkYu/vue-calendar-flat/blob/master/examples/assets/demo.gif?raw=true)
 
 ### Getting Started
@@ -93,24 +90,25 @@ export default class App extends Vue {
 #### Calendar
 attr | type | options | default | required | note
 --- | --- | --- | --- | --- | --- 
-themeColor | string | --- | #57D089 | false | theme color
-fontColor | string | --- | #606266 | false | font color
-disabledLine | boolean | --- | false | false | show disabled line
-readOnly | string | --- | false | false | readonly
-limit | number | --- | 1 | false | quantity limit
-dateNote | {<br> [key: number]: string <br>} | --- | --- | false | note of day
-noteColor | string | --- | #606266 | false | color of date note
-value |{<br>year: number;<br>month: number;<br>day: number;<br>}[] |--- | --- | true | days chose
-start | string | --- | `${yearCurrent}-${monthCurrent}-${dayCurrent}` | false | start of range
-end | string | --- | 9999-12-31 | false | end of range
+themeColor | string | --- | #57D089 | false | 主题色
+fontColor | string | --- | #606266 | false | 字体颜色
+disabledLine | boolean | --- | false | false | 不可点击时横线划掉
+readOnly | string | --- | false | false | 只读
+limit | number | --- | 1 | false | 选择数量限制
+dateNote | {<br> [key: number]: string <br>} | --- | --- | false | 某个日期的备注
+disableDate |  number:[]  | --- | --- | false | 可选日期，如果不给或者为[]，则默认都可以选
+noteColor | string | --- | #606266 | false | 备注颜色
+value |{<br>year: number;<br>month: number;<br>day: number;<br>}[] |--- | --- | true | 已选日期
+start | string | --- | `${yearCurrent}-${monthCurrent}-${dayCurrent}` | false | 开始日期
+end | string | --- | 9999-12-31 | false | 结束日期
 
 #### CalendarDayConcise
 attr | type | options | default | required | note
 --- | --- | --- | --- | --- | --- 
-themeColor | string | --- | #57D089 | false | theme color
-fontColor | string | --- | #606266 | false | font color
-noteColor | string | --- | #606266 | false | color of date note
-disabledLine | boolean | --- | false | false | show disabled line
-active | boolean | --- | false | false | is activated
-todayHighLight | boolean | --- | true | false | highlight today
-day | {<br> year:number;<br> month:number;<br> day: number; <br>disable: boolean;<br> note?: string;<br> isToday?: boolean;<br>} | --- | --- | true | day info
+themeColor | string | --- | #57D089 | false | 主题色
+fontColor | string | --- | #606266 | false | 字体颜色
+noteColor | string | --- | #606266 | false | 备注颜色
+disabledLine | boolean | --- | false | false | 不可点击时横线划掉
+active | boolean | --- | false | false | 是否激活
+todayHighLight | boolean | --- | true | false | 是否高亮 今天
+day | {<br> year:number;<br> month:number;<br> day: number; <br>disable: boolean;<br> note?: string;<br> isToday?: boolean;<br>} | --- | --- | true | 日期信息

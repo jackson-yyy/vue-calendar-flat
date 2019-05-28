@@ -171,6 +171,13 @@ export default class Calendar extends Vue {
     }
   }) end!: string
 
+  @Prop({
+    required: false,
+    default: () => {
+      return null
+    }
+  }) private disableDate!: number[]
+
   private weekdays: string[] = weekdays
   private year: number = yearCurrent
   private month: number = monthCurrent
@@ -232,13 +239,14 @@ export default class Calendar extends Vue {
     const self = this
     return this.calendar.map((week: CalendarFlat) => week.map((day: CalendarDay) => {
       let currentDay: number = Number(`${day.year}${String(day.month).padStart(2, '0')}${String(day.day).padStart(2, '0')}`)
+      let disable = day.disable && self.isInRange({
+        year: day.year,
+        month: day.month,
+        day: day.day
+      }) && this.isDateDisable(day)
       return {
         ...day,
-        disable: day.disable && self.isInRange({
-          year: day.year,
-          month: day.month,
-          day: day.day
-        }),
+        disable,
         note: this.dateNote[currentDay] || ''
       }
     }
@@ -283,7 +291,7 @@ export default class Calendar extends Vue {
   }
 
   private initChose (): void {
-    this.chose = this.value.filter(item => this.isInRange(item))
+    this.chose = this.value.filter(item => this.isInRange(item) && this.isDateDisable(item))
     this.emitChose(this.chose)
   }
 
@@ -448,6 +456,14 @@ export default class Calendar extends Vue {
   // 判断某一天是否在规定范围内
   private isInRange (date: NaturalDay): boolean {
     return compareDate(date, this.startDate) >= 0 && compareDate(this.endDate, date) >= 0
+  }
+
+  private isDateDisable (date: NaturalDay): boolean {
+    if (!this.disableDate || !this.disableDate.length) {
+      return true
+    }
+    let currentDay: number = Number(`${date.year}${String(date.month).padStart(2, '0')}${String(date.day).padStart(2, '0')}`)
+    return this.disableDate.includes(currentDay)
   }
 }
 </script>
