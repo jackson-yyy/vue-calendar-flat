@@ -171,13 +171,20 @@ export default class Calendar extends Vue {
     }
   }) end!: string
 
+<<<<<<< HEAD
   // 如果disableDate为null,则日期都可用，如果为数组，则只有数组内的日期可用
+=======
+>>>>>>> 6a37d1a7fcea66d3c3af18771ff900aca2ab8042
   @Prop({
     required: false,
     default: () => {
       return null
     }
+<<<<<<< HEAD
   }) private disableDate!: number[] | null
+=======
+  }) private disableDate!: number[]
+>>>>>>> 6a37d1a7fcea66d3c3af18771ff900aca2ab8042
 
   private weekdays: string[] = weekdays
   private year: number = yearCurrent
@@ -491,8 +498,12 @@ export default class Calendar extends Vue {
   }
 
   private isDateDisable (date: NaturalDay): boolean {
+<<<<<<< HEAD
     // 如果disableDate为null,则日期都可用
     if (!this.disableDate) {
+=======
+    if (!this.disableDate || !this.disableDate.length) {
+>>>>>>> 6a37d1a7fcea66d3c3af18771ff900aca2ab8042
       return true
     }
     let currentDay: number = Number(`${date.year}${String(date.month).padStart(2, '0')}${String(date.day).padStart(2, '0')}`)

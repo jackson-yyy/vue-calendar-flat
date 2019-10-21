@@ -8,7 +8,10 @@
       :todayHighLight='true'
       :readOnly="false"
       :disableDate="disableDate"
+<<<<<<< HEAD
       @change="change"
+=======
+>>>>>>> 6a37d1a7fcea66d3c3af18771ff900aca2ab8042
       v-model="chose"></Calendar>
     <!-- <CalendarDayConcise :day="{
         year: 2019,
@@ -48,9 +51,16 @@ export default class App extends Vue {
     20190619: '自定义'
   }
 
+<<<<<<< HEAD
   disableDate: number[] | null = [
     20190702,
     20190703
+=======
+  disableDate:number[] = [
+    20190529,
+    20190530,
+    20190531
+>>>>>>> 6a37d1a7fcea66d3c3af18771ff900aca2ab8042
   ]
 
   click (e: any) {
