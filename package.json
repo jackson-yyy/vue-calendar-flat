@@ -1,6 +1,6 @@
 {
     "name": "vue-calendar-flat",
-    "version": "0.1.9",
+    "version": "0.2.4",
     "private": false,
     "keywords": [
         "vue",
@@ -43,7 +43,7 @@
         "ts-node": "^8.1.0",
         "typescript": "^3.4.3",
         "vconsole": "^3.3.0",
-        "vue-calendar-flat": "^0.1.9",
+        "vue-calendar-flat": "^0.2.4",
         "vue-template-compiler": "^2.5.21"
     }
 }

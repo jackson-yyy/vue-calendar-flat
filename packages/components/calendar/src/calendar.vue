@@ -171,12 +171,13 @@ export default class Calendar extends Vue {
     }
   }) end!: string
 
+  // 如果disableDate为null,则日期都可用，如果为数组，则只有数组内的日期可用
   @Prop({
     required: false,
     default: () => {
       return null
     }
-  }) private disableDate!: number[]
+  }) private disableDate!: number[] | null
 
   private weekdays: string[] = weekdays
   private year: number = yearCurrent
@@ -203,6 +204,9 @@ export default class Calendar extends Vue {
 
   @Emit('input')
   private emitChose (date: NaturalDay[]) { }
+
+  @Emit('change')
+  private emitChange ({ month = this.month, year = this.year }: { month: number, year: number }) { }
 
   private get propPass (): object {
     return {
@@ -288,6 +292,10 @@ export default class Calendar extends Vue {
     // this.day = this.startDate.day
     this.initChose()
     this.getCalendar()
+    this.emitChange({
+      month: this.month,
+      year: this.year
+    })
   }
 
   private initChose (): void {
@@ -362,14 +370,22 @@ export default class Calendar extends Vue {
       day
     })
     if (index === -1) {
-      if (this.isLimitReached) {
+      if (this.isLimitReached && this.limit > 1) {
         return this.exceed()
       }
-      this.chose.push({
-        year,
-        month,
-        day
-      })
+      if (this.limit === 1) {
+        this.chose = [{
+          year,
+          month,
+          day
+        }]
+      } else {
+        this.chose.push({
+          year,
+          month,
+          day
+        })
+      }
     } else {
       this.chose.splice(index, 1)
     }
@@ -408,6 +424,10 @@ export default class Calendar extends Vue {
     }
     this.correctDate()
     this.getCalendar()
+    this.emitChange({
+      month: this.month,
+      year: this.year
+    })
     return this.month
   }
 
@@ -420,6 +440,10 @@ export default class Calendar extends Vue {
     }
     this.correctDate()
     this.getCalendar()
+    this.emitChange({
+      month: this.month,
+      year: this.year
+    })
     return this.month
   }
 
@@ -427,6 +451,10 @@ export default class Calendar extends Vue {
     this.year++
     this.correctDate()
     this.getCalendar()
+    this.emitChange({
+      month: this.month,
+      year: this.year
+    })
     return this.year
   }
 
@@ -434,6 +462,10 @@ export default class Calendar extends Vue {
     this.year--
     this.correctDate()
     this.getCalendar()
+    this.emitChange({
+      month: this.month,
+      year: this.year
+    })
     return this.year
   }
 
@@ -459,7 +491,8 @@ export default class Calendar extends Vue {
   }
 
   private isDateDisable (date: NaturalDay): boolean {
-    if (!this.disableDate || !this.disableDate.length) {
+    // 如果disableDate为null,则日期都可用
+    if (!this.disableDate) {
       return true
     }
     let currentDay: number = Number(`${date.year}${String(date.month).padStart(2, '0')}${String(date.day).padStart(2, '0')}`)

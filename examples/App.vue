@@ -3,11 +3,12 @@
     <Calendar :dateNote="dateNote"
       noteColor="blue"
       end="2020-6-20"
-      :limit="3"
+      :limit="1"
       @exceed="exceed"
       :todayHighLight='true'
       :readOnly="false"
       :disableDate="disableDate"
+      @change="change"
       v-model="chose"></Calendar>
     <!-- <CalendarDayConcise :day="{
         year: 2019,
@@ -47,10 +48,9 @@ export default class App extends Vue {
     20190619: '自定义'
   }
 
-  disableDate:number[] = [
-    20190529,
-    20190530,
-    20190531
+  disableDate: number[] | null = [
+    20190702,
+    20190703
   ]
 
   click (e: any) {
@@ -64,10 +64,8 @@ export default class App extends Vue {
     console.log('====================================')
   }
 
-  change (date: any) {
-    console.log('====================================')
-    console.log(date)
-    console.log('====================================')
+  change (data:any) {
+    console.log(data)
   }
 }
 </script>
