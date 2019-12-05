@@ -1,10 +1,6 @@
 {
     "name": "vue-calendar-flat",
-<<<<<<< HEAD
     "version": "0.2.4",
-=======
-    "version": "0.1.9",
->>>>>>> 6a37d1a7fcea66d3c3af18771ff900aca2ab8042
     "private": false,
     "keywords": [
         "vue",
